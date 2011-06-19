@@ -1,0 +1,85 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+
+require 'rbglox'
+require 'optparse'
+require 'ftools'
+
+help = <<HELP
+RBGLox v#{RBGLox::VERSION}
+
+usage: rbglox [options]
+
+Examples:
+	rbglox --init
+	rbglox --model=teapot
+	rbglox --title="My GLSL Demo"
+
+Models:
+	quad, cube, teapot
+	
+Options:
+HELP
+
+options = 
+{
+	'model' => 'teapot',
+	'title' => "RBGLox v#{RBGLox::VERSION}"
+}
+opts = OptionParser.new do |opts|
+	opts.banner = help
+	
+	opts.on('--init', 'create an empty project in the current directory') do
+		options['init'] = true
+	end
+	
+	opts.on('--model [model]', 'specify sample model') do |model|
+		if ['quad', 'cube', 'box', 'teapot'].include? model
+			options['model'] = model
+		end
+	end
+
+	opts.on('--title [title]', 'specify window title') do |title|
+		options['title'] = title
+	end
+	
+	opts.on('--version', 'show version information') do
+		puts RBGLox::VERSION
+		exit 0
+	end
+end
+
+begin
+	opts.parse!
+rescue OptionParser::InvalidOption => e
+	puts e.message
+	exit 1
+end
+
+def init(src, dst)
+	puts 'Copying shader ...'
+	File.copy(File.join(src, 'res/shader.glsl'), File.join(dst, 'shader.glsl'))
+	puts 'Copying texture ...'
+	File.copy(File.join(src, 'res/texture.tga'), File.join(dst, 'texture1.tga'))
+	puts 'Now run `rbglox` and enjoy :)'
+	0
+end
+
+exit init(File.dirname(File.dirname(__FILE__)), Dir.getwd) unless options['init'].nil?
+
+unless File.exists?(File.join(Dir.getwd, 'shader.glsl'))
+	puts 'Error. No `shader.glsl` found in the current directory.'
+	exit 1
+end
+
+unless File.exists?(File.join(Dir.getwd, 'texture1.tga'))
+	puts 'Warning. No `texture1.tga` found in the current directory.'
+end
+
+ShaderApp.new do |app|
+  app.title = options['title']
+  app.model = options['model']
+  app.watch = Dir.getwd
+  app.exec
+end
