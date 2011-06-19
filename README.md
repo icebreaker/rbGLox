@@ -25,59 +25,60 @@ Getting Started
 
 Using rbGLox as a library is a very easy :)
 
-	```ruby
-	require 'rbglox'
-	class DemoApp < RBGLox::App
-  		def init
-    		@texture = RBGLox::Texture.new 'mosaic.tga'
-    		@r = 0.0 
-    		@cube = RBGLox::MeshCube.new
-  		end
-  		def update
-  			@r += 0.1
-  		end
-	  	def draw
-    		glTranslatef 0.0,0.0,-6.0
-    		glRotatef @r, 1.0, 1.0, 1.0
+```ruby
+require 'rbglox'
+class DemoApp < RBGLox::App
+  	def init
+    	@texture = RBGLox::Texture.new 'mosaic.tga'
+    	@r = 0.0 
+    	@cube = RBGLox::MeshCube.new
+  	end
+  	def update
+  		@r += 0.1
+  	end
+	def draw
+    	glTranslatef 0.0,0.0,-6.0
+    	glRotatef @r, 1.0, 1.0, 1.0
     		
-    		@texture.bind
-	    	@cube.draw
-	  	  	@texture.release
-  	  	end
-	 	def shutdown
-    		@texture.free
-    		@cube.free
-  		end 
-	end
-	```
+    	@texture.bind
+	    @cube.draw
+	  	@texture.release
+  	end
+	def shutdown
+    	@texture.free
+    	@cube.free
+  	end 
+end
+```
 	
 Now let's fire this up :)
 
-	```ruby
-	DemoApp.new do |app|
-  		app.title = 'DemoApp'
-  		app.exec
-	end
-	```
+```ruby
+DemoApp.new do |app|
+  	app.title = 'DemoApp'
+  	app.exec
+end
+```
 	
 Additional methods you can override:
 
-	```ruby
-	resize(h, w)
-	begin_frame
-	end_frame
-	reload(event)
-	```
+```ruby
+resize(h, w)
+begin_frame
+end_frame
+reload(event)
+```
 	
 #### Semi-automatic resource re-loading
 
-	```ruby
-	DemoApp.new do |app|
-		app.watch = 'data/'
-  		app.title = 'DemoApp'
-  		app.exec
-	end
-	```
+```ruby
+DemoApp.new do |app|
+	app.watch = 'data/'
+  	app.title = 'DemoApp'
+  	app.exec
+end
+```
+
 If the `watch` variable is not `nil` then the given directory will be watched
 for any changes. (i.e file modified, file created, etc)
 
@@ -87,18 +88,18 @@ reload your resources.
 The included `RBGLox::Texture` and `RBGLox::Shader` classes have a `reload` method 
 which facilitates this as illustrated in the example below.
 
-	```ruby
-	...
-	def reload(event)
-		if event.type == :modified
-			texture1.reload if event.path =~ /myawesometexture.tga$/
-			shader.reload if event.path =~ /myshader.glsl$/
-			...
-		end
+```ruby
+...
+def reload(event)
+	if event.type == :modified
+		texture1.reload if event.path =~ /myawesometexture.tga$/
+		shader.reload if event.path =~ /myshader.glsl$/
 		...
 	end
 	...
-	```
+end
+...
+```
 	
 ### Executable
 
