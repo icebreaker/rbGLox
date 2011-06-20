@@ -105,6 +105,8 @@ end
 
 It is also possible to use rbGLox as a cheap & rudimentary "GLSL" shader editor.
 
+![](https://raw.github.com/icebreaker/rbGLox/master/screenshot.png)
+
 In order to create a new project do the following:
 
 	mkdir glsl-demo
