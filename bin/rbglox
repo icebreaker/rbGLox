@@ -4,7 +4,12 @@ $:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
 
 require 'rbglox'
 require 'optparse'
-require 'ftools'
+
+begin
+	require 'ftools'
+rescue LoadError
+	require 'fileutils'
+end
 
 help = <<HELP
 RBGLox v#{RBGLox::VERSION}
@@ -59,9 +64,9 @@ end
 
 def init(src, dst)
 	puts 'Copying shader ...'
-	File.copy(File.join(src, 'res/shader.glsl'), File.join(dst, 'shader.glsl'))
+	FileUtils.cp(File.join(src, 'res/shader.glsl'), File.join(dst, 'shader.glsl'))
 	puts 'Copying texture ...'
-	File.copy(File.join(src, 'res/texture.tga'), File.join(dst, 'texture1.tga'))
+	FileUtils.cp(File.join(src, 'res/texture.tga'), File.join(dst, 'texture1.tga'))
 	puts 'Now run `rbglox` and enjoy :)'
 	0
 end

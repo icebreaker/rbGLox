@@ -14,7 +14,8 @@ Gem::Specification.new 'rbglox', RBGLox::VERSION do |s|
   s.executables       = ['rbglox']
   s.add_runtime_dependency('ruby-opengl', ">= 0.60.1")
   s.add_runtime_dependency('ruby-glfw', ">= 0.9.1")
+  s.add_runtime_dependency('glut', ">= 8.2.1")
+  s.add_runtime_dependency('glu', ">= 8.2.1")
   s.add_runtime_dependency('directory_watcher', ">= 1.4.0")
-  #s.add_development_dependency('yourgem', ">= 1.0.0")
   s.summary           = 'rbGLox is a small wrapper over the ruby-opengl, ruby-glfw family by abstracting and providing some high-level interfaces for things like "Textures", "GLSL Shaders", basic "Geometry" and others.'
 end

@@ -31,9 +31,9 @@ class RBGLox::Shader < RBGLox::Resource
       l = value.size
     	if l == 2
 				glUniform2fv loc, value
-			elsif l == 3:
+			elsif l == 3
 				glUniform3fv loc, value
-			elsif l == 4:
+			elsif l == 4
 				glUniform4fv loc, value
       end
     else
